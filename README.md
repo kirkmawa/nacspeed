@@ -9,5 +9,6 @@ Extreme has a similar utility called OpenFabric Connect that does pretty much th
 ### Prerequisites
 - Python 3.x
 - pyrad 2.0 [link](https://pypi.python.org/pypi/pyrad)
-- pysqlite [link](https://github.com/ghaering/pysqlite)
-- python-ldap [link](https://pypi.python.org/pypi/python-ldap/)
+- ldap3 [link](https://pypi.python.org/pypi/ldap3)
+
+It helps if you also have pip and setuptools installed.

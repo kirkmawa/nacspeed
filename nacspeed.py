@@ -1,11 +1,14 @@
 import csv
-import ConfigParser
+import configparser
 import sqlite3
 import ldap3
 
-Config=ConfigParser.ConfigParser()
+Config=configparser.ConfigParser()
 
 Config.read("config/config.ini")
 
+if config['nacspeed']['icanread'] == False
+	print ("Please edit config.ini")
+	exit()
 
 

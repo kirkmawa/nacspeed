@@ -7,7 +7,7 @@ Config=configparser.ConfigParser()
 
 Config.read("config/config.ini")
 
-if config['nacspeed']['icanread'] == False:
+if Config['nacspeed']['icanread'] == False:
 	print ("Please edit config.ini")
 	exit()
 

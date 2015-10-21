@@ -10,5 +10,6 @@ Extreme has a similar utility called OpenFabric Connect that does pretty much th
 - Python 3.x
 - pyrad 2.0 [link](https://pypi.python.org/pypi/pyrad)
 - ldap3 [link](https://pypi.python.org/pypi/ldap3)
+- pygtail [link](https://pypi.python.org/pypi/pygtail)
 
 It helps if you also have pip and setuptools installed.

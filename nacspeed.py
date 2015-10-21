@@ -20,7 +20,11 @@ def modify_time (filename):
 	t = os.path.getmtime(filename)
 	return datetime.datetime.fromtimestamp(t)
 
-d = datetime.date.now()
-datefile = d.strftime("nacESE.%Y_%m_%d_")
-print os.path.exists(Config['nacspeed']['nsroot'] + "NetSight/appdata/logs/" + datefile + "01.log")
+d = datetime.datetime.now()
+for n in range(1,20):
+	logfilename = Config['nacspeed']['nsroot'] + "NetSight/appdata/logs/" + d.strftime("nacESE.%Y_%m_%d_") + n.zfill(2) ".log"
+	print("Checking " + logfilename + "...")
+	if os.path.exists(logfilename):
+		initlog = logfilename
+print ("Using " + initlog + " for initial logfile")
 

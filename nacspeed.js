@@ -20,13 +20,13 @@ function findLatestFile (dirpath) {
 			fs.statSync(dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log").isFile();
 		}
 		catch (err) {
-			continue;
+			n--;
+			break;
 		}
 	}
 	return dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log";
 }
 
-console.log(findLatestFile(nsini.nacspeed.nsroot));
 
 // Process nacESE log file line
 

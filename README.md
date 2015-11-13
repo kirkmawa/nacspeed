@@ -8,8 +8,8 @@ server on the Rocket.
 
 Extreme has a similar utility called OpenFabric Connect that does pretty much the same 
 thing. The only problem is, you don't have aany options to filter out messages from the NAC 
-end-system log. (For example, in my district, I have a separate SSID for machine cert a
-uthentication and all those are sent to Lightspeed.)
+end-system log. (For example, in my district, I have a separate SSID for machine cert 
+authentication and all those are sent to Lightspeed.)
 
 ### Prerequisites
 - Node.js 0.8.0

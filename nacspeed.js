@@ -31,7 +31,7 @@ function findLatestFile (dirpath) {
 
 // Process nacESE log file line
 function nacese (line) {
-
+	console.log (line);
 }
 
 // Construct and send RADIUS accounting packet

@@ -29,6 +29,7 @@ function findLatestFile (dirpath) {
 			break;
 		}
 	}
+	console.log ("using " + dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log");
 	return dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log";
 }
 
@@ -66,6 +67,20 @@ function sendRadiusLogin (username, framedip) {
 }
 
 
+fs.watchFile(nsini.nacspeed.nsroot, function(curr, prev) {
+  if (curr.nlink != prev.nlink) {
+    // The number of links in the directory has changed, now
+    // see if there is a new log file and start watching it.
+    console.log ("warning: nacESE log has been rotated");
+    var logfile = findLatestFile (nsini.nacspeed.nsroot);
+
+	tail = new Tail(logfile);
+
+	tail.on("line", function(data) {
+	  nacese (data);
+	});
+	  }
+});
 
 var logfile = findLatestFile (nsini.nacspeed.nsroot);
 

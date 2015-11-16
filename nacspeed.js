@@ -6,6 +6,9 @@ var strftime = require ("strftime");
 var Tail = require ("node-tail").Tail;
 var dgram = require ("dgram");
 
+// Create the UDP client
+var client = dgram.createSocket("udp4");
+
 
 // Read the config file
 var nsini = ini.parseSync('./config/config.ini');
@@ -50,15 +53,15 @@ function sendRadiusLogin (username, framedip) {
 	  secret: nsini.nacspeed.radius_ss,
 	  attributes: [
 		['User-Name', username],
-		['Framed-IP-Address', framedip]
+		['Framed-IP-Address', framedip],
+		['NAS-IP-Address', '0.0.0.0'],
+		['NAS-Port', '0'],
+		['NAS-Port-Type', 'Wireless-Other'],
+		['Acct-Status-Type', 'Start']
 	  ]
 	});	
 	
-	var client = dgram.createSocket("udp4");
-	client.bind(49001);
-	
 	client.send(packet, 0, packet.length, 1813, nsini.nacspeed.lsip);
-	client.close();
 	
 }
 

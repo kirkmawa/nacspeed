@@ -34,7 +34,7 @@ function nacese (line) {
 	// This is tab-delimited, we need to split this string
 	var fields = line.split("\t");
 	if (fields[5] == "AUTH_MAC_PAP") {
-		console.log (fields[2] + " " + fields[8]);
+		console.log (fields[2] + " " + fields[8] + " (" + fields[6] + ")");
 	}
 }
 

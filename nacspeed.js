@@ -3,6 +3,8 @@ var radius = require ("node-radius");
 var fs = require("fs");
 var zpad = require ("zpad");
 var strftime = require ("strftime");
+var Tail = require ("node-tail").Tail;
+var dgram = require ("dgram");
 
 
 // Read the config file
@@ -27,7 +29,38 @@ function findLatestFile (dirpath) {
 	return dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log";
 }
 
-
 // Process nacESE log file line
+function nacese (line) {
+
+}
 
 // Construct and send RADIUS accounting packet
+function sendRadiusLogin (username, framedip) {
+	var packet = radius.encode({
+	  code: "Accounting-Request",
+	  secret: nsini.nacspeed.radius_ss,
+	  attributes: [
+		['User-Name', username],
+		['Framed-IP-Address', framedip]
+	  ]
+	});	
+	
+	var client = dgram.createSocket("udp4");
+	client.bind(49001);
+	
+	client.send(packet, 0, packet.length, 1813, nsini.nacspeed.lsip);
+	client.close();
+	
+}
+
+
+
+var logfile = findLatestFile (nsini.nacspeed.nsroot);
+
+tail = new Tail(logfile);
+
+tail.on("line", function(data) {
+  nacese (data);
+});
+
+

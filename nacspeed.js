@@ -31,7 +31,11 @@ function findLatestFile (dirpath) {
 
 // Process nacESE log file line
 function nacese (line) {
-	console.log (line);
+	// This is tab-delimited, we need to split this string
+	var fields = line.split("\t");
+	if (fields[5] == "AUTH_MAC_PAP") {
+		console.log (fields[2] + " " + fields[8]);
+	}
 }
 
 // Construct and send RADIUS accounting packet

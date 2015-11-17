@@ -5,6 +5,7 @@ var zpad = require ("zpad");
 var strftime = require ("strftime");
 var Tail = require ("node-tail").Tail;
 var dgram = require ("dgram");
+var watch = require ("watch");
 
 // Create the UDP client
 var client = dgram.createSocket("udp4");
@@ -66,20 +67,19 @@ function sendRadiusLogin (username, framedip) {
 	
 }
 
+watch.createMonitor(nsini.nacspeed.nsroot + "NetSight/appdata/logs/", function (monitor) {
+	monitor.on("created", function (f, stat) {
+    	// Handle new files
+    	console.log ("warning: log file has been rotated, finding new file");
+		tail.unwatch();
+		var logfile = findLatestFile (nsini.nacspeed.nsroot);
 
-fs.watchFile(nsini.nacspeed.nsroot, function(curr, prev) {
-  if (curr.nlink != prev.nlink) {
-    // The number of links in the directory has changed, now
-    // see if there is a new log file and start watching it.
-    console.log ("warning: nacESE log has been rotated");
-    var logfile = findLatestFile (nsini.nacspeed.nsroot);
+		tail = new Tail(logfile);
 
-	tail = new Tail(logfile);
-
-	tail.on("line", function(data) {
-	  nacese (data);
+		tail.on("line", function(data) {
+			nacese (data);
+		});
 	});
-	  }
 });
 
 var logfile = findLatestFile (nsini.nacspeed.nsroot);

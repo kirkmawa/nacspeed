@@ -20,5 +20,6 @@ authentication and all those are sent to Lightspeed.)
 - Includes [node-tail](https://github.com/lucagrulla/node-tail) by Luca Grulla (MIT license)
 - Includes [zpad](https://github.com/Daiz/zpad) (public domain)
 - Includes [strftime](https://github.com/samsonjs/strftime) by Sami Samhuri (MIT license)
+- Includes [watch](https://github.com/mikeal/watch) by Mikeal Rogers (Apache License)
 
 

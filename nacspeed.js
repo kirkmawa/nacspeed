@@ -7,12 +7,25 @@ var Tail = require ("node-tail").Tail;
 var dgram = require ("dgram");
 var watch = require ("watch");
 
-// Create the UDP client
-var client = dgram.createSocket("udp4");
-
+console.log ("nacspeed starting up");
 
 // Read the config file
-var nsini = ini.parseSync('./config/config.ini');
+console.log ("reading config file");
+try {
+	var nsini = ini.parseSync('./config/config.ini');
+} catch (e) {
+	console.log ("Failed to read config/config.ini. Perhaps you forgot to rename and edit config-start.ini");
+	process.exit(1);
+}
+
+// Exit if the config file is not edited
+if (nsini.nacspeed.icanread == "False") {
+	console.log ("Make sure you edit the config file");
+	process.exit(1);
+}
+
+// Create the UDP client
+var client = dgram.createSocket("udp4");
 
 // FUNCTIONS
 

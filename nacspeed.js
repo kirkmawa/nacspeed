@@ -8,6 +8,12 @@ var dgram = require ("dgram");
 var watch = require ("watch");
 var path = require ("path");
 
+// Check for node version before proceeding
+if (process.versions.node < '0.8.0') {
+	console.log ("This software requires node 0.8.0 or newer, this is " + process.version);
+	process.exit(1);
+}
+
 console.log ("nacspeed starting up");
 
 // Read the config file
@@ -20,7 +26,7 @@ try {
 }
 
 // Exit if the config file is not edited
-if (nsini.nacspeed.icanread == "False") {
+if (nsini.nacspeed.icanread == "false") {
 	console.log ("Make sure you edit the config file");
 	process.exit(1);
 }
@@ -44,7 +50,9 @@ function findLatestFile (dirpath) {
 			break;
 		}
 	}
-	console.log ("using " + path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log"));
+	if (nsini.nacspeed.logging) {
+		console.log ("using " + path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log"));
+	}
 	return path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log");
 }
 
@@ -54,9 +62,13 @@ function nacese (line) {
 	var fields = line.split("\t");
 	if (fields[5] == "AUTH_MAC_PAP") {
 		if (fields[2] == "<null/>" || fields[8] == "<empty/>") {
-			console.log ("discarded empty nacESE entry");
+			if (nsini.nacspeed.logging) {
+				console.log ("discarded empty nacESE entry");
+			}
 		} else {
-			console.log ("processed nacESE entry from " + fields[2] + " " + fields[8] + " (" + fields[6] + ")");
+			if (nsini.nacspeed.logging) {
+				console.log ("processed nacESE entry from " + fields[2] + " " + fields[8] + " (" + fields[6] + ")");
+			}
 			sendRadiusLogin (fields[8], fields[2]);
 		}
 	}
@@ -84,7 +96,9 @@ function sendRadiusLogin (username, framedip) {
 watch.createMonitor(path.normalize(nsini.nacspeed.nsroot + "NetSight/appdata/logs/"), function (monitor) {
 	monitor.on("created", function (f, stat) {
     	// Handle new files
-    	console.log ("warning: log file has been rotated, finding new file");
+    	if (nsini.nacspeed.logging) {
+			console.log ("warning: log file has been rotated, finding new file");
+    	}
 		tail.unwatch();
 		var logfile = findLatestFile (path.normalize(nsini.nacspeed.nsroot));
 

@@ -50,7 +50,7 @@ function findLatestFile (dirpath) {
 			break;
 		}
 	}
-	if (nsini.nacspeed.logging) {
+	if (nsini.nacspeed.logging > 0) {
 		console.log ("using " + path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log"));
 	}
 	return path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log");
@@ -62,11 +62,11 @@ function nacese (line) {
 	var fields = line.split("\t");
 	if (fields[5] == "AUTH_MAC_PAP") {
 		if (fields[2] == "<null/>" || fields[8] == "<empty/>") {
-			if (nsini.nacspeed.logging) {
+			if (nsini.nacspeed.logging > 1) {
 				console.log ("discarded empty nacESE entry");
 			}
 		} else {
-			if (nsini.nacspeed.logging) {
+			if (nsini.nacspeed.logging > 1) {
 				console.log ("processed nacESE entry from " + fields[2] + " " + fields[8] + " (" + fields[6] + ")");
 			}
 			sendRadiusLogin (fields[8], fields[2]);
@@ -96,7 +96,7 @@ function sendRadiusLogin (username, framedip) {
 watch.createMonitor(path.normalize(nsini.nacspeed.nsroot + "NetSight/appdata/logs/"), function (monitor) {
 	monitor.on("created", function (f, stat) {
     	// Handle new files
-    	if (nsini.nacspeed.logging) {
+    	if (nsini.nacspeed.logging > 0) {
 			console.log ("warning: log file has been rotated, finding new file");
     	}
 		tail.unwatch();

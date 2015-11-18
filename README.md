@@ -13,14 +13,15 @@ authentication and all those are sent to Lightspeed.) This overwrites the userna
 by the user agent on the machine with host/computername.fqdn.example.net, which is bad.
 
 ### Prerequisites
-- Node.js 0.8.0
+- Node.js, ideally 0.8.0 or newer
 
 ### Instructions
-Make sure Node.js is installed on your NetSight server and ideally included in your PATH.
+Make sure Node.js is installed on your NetSight server and included in your PATH.
 Then download the latest release zip or `git clone` the repo to your machine. Rename 
 config-start.ini to config.ini and edit to suit your environment. Then run `node nacspeed.js` 
 and watch the magic happen. All dependencies are included in the nacspeed package, so there 
-is no extra installation necessary.
+is no extra installation necessary. Make sure a transparent authentication source is set in 
+your Rocket under Web Filter > Mobile Devices.
 
 ### Acknowledgements
 - Includes [node-ini](https://github.com/pastorbones/node-ini) by Roger Mayfield (MIT license)

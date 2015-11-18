@@ -10,8 +10,7 @@ var path = require ("path");
 
 // Check for node version before proceeding
 if (process.versions.node < '0.8.0') {
-	console.log ("This software requires node 0.8.0 or newer, this is " + process.version);
-	process.exit(1);
+	console.log ("warning: This software runs best on node 0.8.0 or newer, this is " + process.version);
 }
 
 console.log ("nacspeed starting up");

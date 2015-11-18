@@ -60,7 +60,7 @@ function findLatestFile (dirpath) {
 function nacese (line) {
 	// This is tab-delimited, we need to split this string
 	var fields = line.split("\t");
-	if (fields[5] == "AUTH_MAC_PAP") {
+	if (fields[5] == "AUTH_MAC_PAP" || fields[5] == "AUTH_MAC_MSCHAP") {
 		if (fields[2] == "<null/>" || fields[8] == "<empty/>") {
 			if (nsini.nacspeed.logging > 1) {
 				console.log ("discarded empty nacESE entry");

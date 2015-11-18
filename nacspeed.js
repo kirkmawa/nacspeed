@@ -6,13 +6,14 @@ var strftime = require ("strftime");
 var Tail = require ("node-tail").Tail;
 var dgram = require ("dgram");
 var watch = require ("watch");
+var path = require ("path");
 
 console.log ("nacspeed starting up");
 
 // Read the config file
 console.log ("reading config file");
 try {
-	var nsini = ini.parseSync('./config/config.ini');
+	var nsini = ini.parseSync(path.normalize('./config/config.ini'));
 } catch (e) {
 	console.log ("Failed to read config/config.ini. Perhaps you forgot to rename and edit config-start.ini");
 	process.exit(1);
@@ -36,15 +37,15 @@ function findLatestFile (dirpath) {
 	while (n < 20) {
 		n++;
 		try {
-			fs.statSync(dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log").isFile();
+			fs.statSync(path.normalize(dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log")).isFile();
 		}
 		catch (err) {
 			n--;
 			break;
 		}
 	}
-	console.log ("using " + dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log");
-	return dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log";
+	console.log ("using " + path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log"));
+	return path.normalize (dirpath + "NetSight/appdata/logs/" + strftime("nacESE.%Y_%m_%d_") + zpad(n) + ".log");
 }
 
 // Process nacESE log file line
@@ -80,12 +81,12 @@ function sendRadiusLogin (username, framedip) {
 	
 }
 
-watch.createMonitor(nsini.nacspeed.nsroot + "NetSight/appdata/logs/", function (monitor) {
+watch.createMonitor(path.normalize(nsini.nacspeed.nsroot + "NetSight/appdata/logs/"), function (monitor) {
 	monitor.on("created", function (f, stat) {
     	// Handle new files
     	console.log ("warning: log file has been rotated, finding new file");
 		tail.unwatch();
-		var logfile = findLatestFile (nsini.nacspeed.nsroot);
+		var logfile = findLatestFile (path.normalize(nsini.nacspeed.nsroot));
 
 		tail = new Tail(logfile);
 
@@ -95,7 +96,7 @@ watch.createMonitor(nsini.nacspeed.nsroot + "NetSight/appdata/logs/", function (
 	});
 });
 
-var logfile = findLatestFile (nsini.nacspeed.nsroot);
+var logfile = findLatestFile (path.normalize(nsini.nacspeed.nsroot));
 
 tail = new Tail(logfile);
 
